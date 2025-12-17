@@ -1,0 +1,48 @@
+class Flower:
+
+    #name: str
+    #petals: int
+    #price: float
+
+    def __init__(self, name, petals, price):
+        self.__name = str(name)
+        self.__petals = int(petals)
+        self.__price = float(price)
+
+    def set_name(self, name):
+        if isinstance(name, (str)):
+            self.__name = name
+        else:
+            raise TypeError("Unexpected type. Valid types are int or float")
+
+    def set_petals(self, petals):
+        if isinstance(petals, (int)):
+            self.__petals = petals
+        else:
+            raise TypeError("Unexpected type. Valid types are int or float")
+
+    def set_price(self, price):
+        if isinstance(price, (float)):
+            self.__price = price
+        else:
+            raise TypeError("Unexpected type. Valid types are int or float")
+
+    def get_name(self):
+        return self.__name
+
+    def get_petals(self):
+        return self.__petals
+
+    def get_price(self):
+        return self.__price
+
+flowerObject = Flower("",0,0.0)
+
+flowerObject.set_name("Daisy")
+print('The name of the flower:', flowerObject.get_name())
+
+flowerObject.set_petals(6)
+print('The number of petals are:', flowerObject.get_petals())
+
+flowerObject.set_price(1.00)
+print('The price is:', "$", flowerObject.get_price())
