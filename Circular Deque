@@ -1,0 +1,96 @@
+class Empty(Exception):
+    """Error attempting to access an element from an empty container"""
+    pass
+
+
+class Deque:
+    """Deque implementation using a Python list as storage"""
+    DEFAULT_CAPACITY = 10
+
+    def __init__(self):
+        """Create an empty deque"""
+        self._data = [None] * Deque.DEFAULT_CAPACITY
+        self._size = 0  # maintain size of queue
+        self._front = 0  # maintain index of front of queue
+
+    def isEmpty(self):
+        """Return True if the queue is empty"""
+        return self._size == 0
+
+    def size(self):
+        """Return the number of items in the queue"""
+        return self._size
+
+    def addRear(self, item):
+        """Add an item to the rear/back of the queue (same as queue.enqueue)"""
+        if self._size == len(self._data):  # true if the number of items == number of cells
+            self._resize(2 * len(self._data))  # out of space so double the array size & move elements
+        avail = (self._front + self._size) % len(self._data)  # determine index of rear of deque
+        self._data[avail] = item  # save item at rear of deque
+        self._size += 1  # increase item count of size of deque
+
+    def removeRear(self):
+        """Remove and return the back/rear element of the deque NEW
+        Raise Empty exception if deque is empty
+        """
+        if self.isEmpty():
+            raise Empty('Deque is empty')
+        answer = self._data[(self._front + self._size - 1) % len(self._data)]  # get element at back/rear of deque
+        self._data[
+            (self._front + self._size - 1) % len(self._data)] = None  # help garbage collection by removing reference
+        self._size -= 1  # decrease item count of size of deque
+        if 0 < self._size < len(
+                self._data) // 4:  # check to see if the number of elements stored are less than one fourth of capacity
+            self._resize(len(self._data) // 2)  # reduce array to half its current size
+        return answer
+
+    def addFront(self, item):
+        """Add an item to the front of the deque NEW """
+        self._front = (self._front - 1) % len(self._data)  # calculate the front of the queue
+        self._data[self._front] = item  # add item at front index
+        self._size += 1  # increase item count of size of deque
+
+    def removeFront(self):
+        """Remove and return the first element of the deque (same as queue.dequeue)
+        Raise Empty exception if deque is empty
+        """
+        if self.isEmpty():
+            raise Empty('Deque is empty')
+        answer = self._data[self._front]  # get element at front of deque
+        self._data[self._front] = None  # help garbage collection by removing reference
+        self._front = (self._front + 1) % len(self._data)  # calculate new front index
+        self._size -= 1  # decrease item count of size of deque
+        if 0 < self._size < len(
+                self._data) // 4:  # check to see if the number of elements stored are less than one fourth of capacity
+            self._resize(len(self._data) // 2)  # reduce array to half its current size
+        return answer
+
+    def _resize(self, capacity):  # we assume cap >= len(self)
+        """Resize to a new list of capacity >= len(self)"""
+        old = self._data  # keep track of existing list
+        self._data = [None] * capacity  # allocate list with new capacity
+        walk = self._front  # set walk to existing index of front
+        for index in range(self._size):  # only consider existing elements
+            self._data[index] = old[walk]  # intentionally shift indexes
+            walk = (1 + walk) % len(old)  # use old size as modulus
+        self._front = 0  # front has been realigned
+
+
+def testDeque():
+    D = Deque()
+    print(D.isEmpty())
+    D.addFront('one')
+    D.addFront('two')
+    D.addRear(4)
+    D.addRear('dog')
+    D.addFront('cat')
+    D.addFront(True)
+    print(D.size())
+    print(D.isEmpty())
+    D.addRear(8.4)
+    print(D.removeRear())
+    print(D.removeFront())
+
+
+if __name__ == '__main__':
+    testDeque()
