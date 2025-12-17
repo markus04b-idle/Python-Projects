@@ -1,0 +1,4 @@
+from urllib.request import urlopen
+url = "http://httpforever.com/"
+web_page = urlopen(url).read().decode("UTF-8")
+print(web_page)
