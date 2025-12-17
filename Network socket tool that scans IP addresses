@@ -1,0 +1,12 @@
+import socket
+hostname = socket.gethostname()
+print(hostname) #prints name of laptop the hostname
+
+ipaddress = socket.gethostbyname(hostname)
+print(ipaddress) #prints ip address of laptop
+print("facebook ip address:", socket.gethostbyname("www.facebook.com")) #gets facebook's ip address
+print("Mercyhurst website ip address:", socket.gethostbyname("www.mercyhurst.edu"))
+service_name = socket.getservbyport(443, "TCP") #gets names of port numbers
+print(service_name)
+port_number = socket.getservbyname("HTTPS") #give protocol then prints port number
+print(port_number)
