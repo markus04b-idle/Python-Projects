@@ -1,0 +1,108 @@
+from tkinter import *
+window = Tk() #Creates a window
+window.title("Calculator Pro")
+window.geometry("650x300")#changes the size of the window, how big or small
+window.resizable("False","False")
+frame = Frame(window)
+frame.pack()
+label_font = ("Times",20,"bold")
+entry_font = ("Times",20,"normal")
+button_width = 6
+num = "" #only executes one time, global variable outside function
+num1 = "" #global variable
+math_sign = ""
+
+#call back function used for clear button
+def clear():
+    global num
+    print("clear function")
+    num = ""
+    displayVar.set("")
+
+
+#callback function used for all the digit buttons
+def display(digit):
+    global num
+    print("display function",digit)
+    num = num + str(digit)
+    displayVar.set(num)
+
+#callback function used for all the math sign buttons
+def operator(op):
+    global num1
+    global math_sign
+    print("operator function",op)
+    num1 = entry_display.get() #num1 = num
+    math_sign = op
+    clear()
+
+#callback function used for all the  = sign
+def calculate():
+    print("Calculate function")
+    num2 = entry_display.get()
+    #calculate the answer based on first number, math sign and second number
+    if math_sign == "+":
+        answer = int(num1) + int(num2)
+    elif math_sign == "-":
+        answer = int(num1) - int(num2)
+    elif math_sign == "*":
+        answer = int(num1) * int(num2)
+    elif math_sign == "/":
+        answer = int(num1) / int(num2)
+    elif math_sign == "^":
+        answer = int(num1) ** int(num2)
+    else:
+        answer = "Invalid"
+    #display the answer on the entry widget
+    displayVar.set(str(answer))
+
+
+#Row 0 widgets
+displayVar = StringVar()
+entry_display = Entry(frame,bd=2, width=20, textvariable=displayVar, font=entry_font) #Creating a text box widget
+entry_display.grid(row=0, column=0, columnspan=3)
+button_clear = Button(frame,text="Clear", width=button_width,font=label_font,command=clear) #no paranthesis, important
+button_clear.grid(row=0,column=3)
+
+#row 1 widgets
+button_1 = Button(frame, text="1",font=label_font,width=button_width,command=lambda x=1: display(x))
+button_1.grid(row=1, column=0)
+button_2 = Button(frame, text="2",font=label_font,width=button_width,command=lambda : display(2))
+button_2.grid(row=1, column=1)
+button_3 = Button(frame, text="3",font=label_font,width=button_width,command=lambda : display(3))
+button_3.grid(row=1, column=2)
+button_add = Button(frame,text="+", font=label_font,width=button_width,command=lambda: operator("+")) #no paranthesis, important
+button_add.grid(row=1,column=3)
+
+#row 2 widgets
+button_4 = Button(frame, text="4",font=label_font,width=button_width,command=lambda : display(4))
+button_4.grid(row=2, column=0)
+button_5 = Button(frame, text="5",font=label_font,width=button_width,command=lambda : display(5))
+button_5.grid(row=2, column=1)
+button_6 = Button(frame, text="6",font=label_font,width=button_width,command=lambda : display(5))
+button_6.grid(row=2, column=2)
+button_sub = Button(frame,text="-", font=label_font,width=button_width,command=lambda: operator("-")) #no paranthesis, important
+button_sub.grid(row=2,column=3)
+
+#row 3 widgets
+button_7 = Button(frame, text="7",font=label_font,width=button_width,command=lambda : display(7))
+button_7.grid(row=3, column=0)
+button_8 = Button(frame, text="8",font=label_font,width=button_width,command=lambda : display(8))
+button_8.grid(row=3, column=1)
+button_9 = Button(frame, text="9",font=label_font,width=button_width,command=lambda : display(9))
+button_9.grid(row=3, column=2)
+button_mult = Button(frame,text="*", font=label_font,width=button_width,command=lambda: operator("*")) #no paranthesis, important
+button_mult.grid(row=3,column=3)
+
+#row 4 widgets
+button_divide = Button(frame,text="/", font=label_font,width=button_width,command=lambda: operator("/")) #no paranthesis, important
+button_divide.grid(row=4,column=2)
+button_0 = Button(frame, text="0",font=label_font,width=button_width,command=lambda : display(0))
+button_0.grid(row=4, column=0)
+button_equal = Button(frame, text="=",font=label_font,width=button_width,command=calculate)
+button_equal.grid(row=4, column=3)
+button_expo = Button(frame, text="^",font=label_font,width=button_width,command=lambda: operator("^"))
+button_expo.grid(row=4, column=1)
+
+#keep the below line at the end
+window.mainloop()
