@@ -1,0 +1,23 @@
+def sort_one_list(array):
+   if array == []:
+       return array
+   if isinstance(array[0], list):
+        return sort_one_list(array[0]) + sort_one_list(array[1:])
+   return array[:1] + sort_one_list(array[1:])
+
+one_list = [1, 2,[3, 'a', 'b', [4, ['c', 'd', 5], 'e'], 6]]
+
+numbers = []
+letters = []
+for value in str(sort_one_list(one_list)):
+
+    if value.isnumeric():
+        numbers.append(value)
+    elif value.isalpha():
+        letters.append(value)
+    else:
+        pass
+
+newlist = sorted(numbers) + sorted(letters)
+print("Original list:", one_list)
+print("New list in order:" + str(newlist))
