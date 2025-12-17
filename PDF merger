@@ -1,0 +1,17 @@
+import PyPDF4
+#import os
+inputs_files = ["new.pdf", "output.pdf"]
+#input_files = os.listdir()
+#print(input_files) #prints the directory in the OS
+
+output_file = "new_output.pdf"
+output_fileObj = open(output_file, "wb")
+output_pdfObj = PyPDF4.PdfFileWriter()
+
+for file_name in inputs_files:
+    fileObj = open(file_name, "rb")
+    pdfObj = PyPDF4.PdfFileReader(fileObj)
+    for page in pdfObj.pages:
+        output_pdfObj.addPage(page)
+
+output_pdfObj.write(output_fileObj)
