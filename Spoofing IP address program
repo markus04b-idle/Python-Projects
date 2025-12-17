@@ -1,0 +1,18 @@
+from scapy.all import *
+
+def myping(ip_address,victim_ip):
+    #Creating an ICMP echo request packet, type=8 and code=0 (default values)
+    icmp_pkt = IP(src=victim_ip,dst=ip_address)/ICMP() #for tcp_pkt = IP(dst="target ip address"/TCP(), for http_pkt = IP()/TCP()/HTTP()
+    print("****Pinging", ip_address)
+    send(icmp_pkt,timeout=5,verbose=0)
+
+
+def main():
+    print("This is main function")
+    #range: 10.52.80.1 = 10.52.80.254
+    victim_ip = ""
+    for last_octet in range(1,255):
+        target_ip_address = "10.52.80." + str(last_octet)
+        myping(target_ip_address,victim_ip)
+
+main()
