@@ -1,0 +1,14 @@
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+
+url = "http://books.toscrape.com/"
+web_page = urlopen(url).read().decode("UTF-8")
+soup = BeautifulSoup(web_page,"html.parser")
+
+#for class_tag in book_tag_list:
+div_tag_list = soup.find_all(name="ol", attrs={"class":"row"}) #accessing div tag list
+li_class_list = soup.find_all(name="li", attrs={"class":"col-xs-6 col-sm-4 col-md-3 col-lg-3"}) #accessing child tag
+for li_class_list in div_tag_list:
+    li_class_list.text.split("£")
+    li_class_list.text.split(" ")
+    print(li_class_list.text.strip())
